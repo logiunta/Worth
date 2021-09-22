@@ -39,10 +39,14 @@ public class ServerMain {
             r.bind("SignUpService", stubRegister);
 
             resetAllCallbacks();
-            System.out.println("Avvio del server Worth. . .\n\n\n");
-            System.out.println("Server avviato\nIn attesa di richieste");
+            System.out.println("Avvio del server Worth. . .\n\n");
+            System.out.println("Server avviato\nDigitare 'exit' per chiudere il server\nIn attesa di richieste...");
             serverTcp = new ServerTcp(usersDb, rmiServerNotify,projectsDb);
             serverTcp.start();
+
+            //termino in modo pulito
+            UnicastRemoteObject.unexportObject(rmiServerNotify,true);
+            UnicastRemoteObject.unexportObject(rmiServer,true);
 
 
         }
@@ -51,7 +55,6 @@ public class ServerMain {
         }
 
     }
-
     private static void resetAllCallbacks(){
         Iterator<RmiClientNotifyInterface> iterator = rmiServerNotify.getClients().iterator();
         while(iterator.hasNext()){
