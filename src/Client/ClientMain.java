@@ -166,6 +166,7 @@ public class ClientMain {
                 UnicastRemoteObject.unexportObject(callbackObject, false);
                 outputStream.close();
                 inputStream.close();
+                myChats.closeSocket();
                 System.out.println("Impossibile comunicare col server: riprovare più tardi");
 
             } catch (IOException e2) {
