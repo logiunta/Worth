@@ -168,7 +168,7 @@ public class OperationHandler implements Runnable {
             } catch (ProjectNotFoundException e) {
                 res = "Errore: il progetto " + projectName + " non esiste";
             } catch (CardNotFoundException e) {
-                res = "Errore: la card " + cardName + " non è stata trovata nel progetto " + projectName + "";
+                res = "Errore: la card " + cardName + " non è stata trovata nel progetto " + projectName;
             } catch (NotPermittedException e) {
                 res = "Errore: non hai i permessi per fare questa operazione";
             }
