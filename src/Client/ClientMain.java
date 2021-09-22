@@ -537,6 +537,7 @@ public class ClientMain {
                 outputStream.flush();
                 outputStream.close();
                 inputStream.close();
+                myChats.closeSocket();
                 userLoggedIn = null;
                 return;
             }

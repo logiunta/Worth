@@ -139,4 +139,8 @@ public class MulticastConnection implements Runnable {
 
     }
 
+    public void closeSocket(){
+        multicastSocket.close();
+    }
+
 }
