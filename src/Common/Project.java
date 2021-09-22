@@ -46,9 +46,9 @@ public class Project implements Serializable {
         doneList = new ArrayList<>();
         inProgessList = new ArrayList<>();
         cardsList = new ArrayList<>();
-        dir = new File("./src/Projects/" + projectName);
-        fileInfo = new File("./src/Projects/" + projectName + "/" + projectName + "Info.json");
-        cardsDir = new File("./src/Projects/" + projectName + "/" + "Cards");
+        dir = new File("./data/Projects/" + projectName);
+        fileInfo = new File("./data/Projects/" + projectName + "/" + projectName + "Info.json");
+        cardsDir = new File("./data/Projects/" + projectName + "/" + "Cards");
 
         if (!dir.exists()) {
             dir.mkdir();
@@ -80,6 +80,26 @@ public class Project implements Serializable {
         }
         return false;
 
+    }
+
+    public void restoreCard(Card card){
+        String lastState = card.getLastState();
+        switch (lastState){
+            case TodoState:
+                todoList.add(card.getName());
+                break;
+            case ToBeRevisedState:
+                toBeRevisedList.add(card.getName());
+                break;
+            case InProgressState:
+                inProgessList.add(card.getName());
+                break;
+            case DoneState:
+                doneList.add(card.getName());
+                break;
+
+        }
+        cardsList.add(card);
     }
 
     public Card findCard(String cardName){
@@ -164,7 +184,8 @@ public class Project implements Serializable {
     }
 
     public boolean allCardsDone(){
-        return todoList.size() == 0 && inProgessList.size() == 0 && toBeRevisedList.size() == 0;
+
+        return (todoList.size() == 0 && inProgessList.size() == 0 && toBeRevisedList.size() == 0);
 
     }
 

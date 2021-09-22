@@ -12,16 +12,20 @@ import java.io.IOException;
 import java.util.*;
 
 public class Storage {
-    private static final File usersDir = new File("./src/UsersDb");
-    private static final File usersFile = new File("./src/UsersDb/WorthUsers.json");
-    private static final File projectsDir = new File("./src/Projects");
-    private static final File multiAddressFile = new File("./src/LastMultiAddress.json");
+    private static final File dataDir = new File("./data");
+    private static final File usersDir = new File("./data/UsersDb");
+    private static final File usersFile = new File("./data/UsersDb/WorthUsers.json");
+    private static final File projectsDir = new File("./data/Projects");
+    private static final File multiAddressFile = new File("./data/LastMultiAddress.json");
     private static MultiGenerator multiGenerator;
     private static ArrayList<Project> listOfProjects;
     private static ArrayList<User> listOfUsers;
 
 
     public static HashMap<String, User> restoreUsers() {
+        if(!dataDir.exists()){
+            dataDir.mkdir();
+        }
         if (!usersDir.exists()) {
             usersDir.mkdir();
             try {
@@ -72,6 +76,9 @@ public class Storage {
     }
 
     public static MultiGenerator restoreLastMultiAddress(){
+        if(!dataDir.exists()){
+            dataDir.mkdir();
+        }
         if(!multiAddressFile.exists()){
             try {
                 multiAddressFile.createNewFile();
@@ -92,6 +99,9 @@ public class Storage {
 
 
     public static HashMap<String,Project> restoreProjects() {
+        if(!dataDir.exists()){
+            dataDir.mkdir();
+        }
         if (!projectsDir.exists()) {
             projectsDir.mkdir();
         }
@@ -197,7 +207,7 @@ public class Storage {
         String name = dir.getName();
         Project project = null;
         ArrayList<File> list = new ArrayList<>(Arrays.asList(dir.listFiles()));
-        File file = new File("./src/Projects/" + name + "/" + name + "Info.json");
+        File file = new File("./data/Projects/" + name + "/" + name + "Info.json");
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             project = objectMapper.readValue(file,Project.class);
@@ -215,7 +225,7 @@ public class Storage {
             ObjectMapper objectMapper = new ObjectMapper();
             for (File cardJson : cardsDir.listFiles()) {
                 Card card = objectMapper.readValue(cardJson,Card.class);
-                project.addCard(card);
+                project.restoreCard(card);
 
             }
         } catch (FileNotFoundException e) {

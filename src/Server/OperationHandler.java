@@ -247,7 +247,7 @@ public class OperationHandler implements Runnable {
             } catch (NotPermittedException e) {
                 res = "Errore: non hai i permessi per fare questa operazione";
             } catch (IllegalArgumentException e) {
-                res = "Errore: le liste non sono corrette";
+                res = "Errore: le liste non sono corrette. Liste disponibili (todo - inprogress - toberevise - done)";
             } catch (ListMisMatchException e) {
                 res = "Errore: la transizione " + listaPartenza + " -> " + listaDestinazione + " non è permessa";
             } catch (CardNotFoundException e) {
@@ -551,14 +551,14 @@ public class OperationHandler implements Runnable {
 
     private String messageForMovedCard(String projectName, String sender, String userLoggedIn, String cardName, String lista1, String lista2) {
         String mess;
-        mess = userLoggedIn + " ha spostato la card " + cardName + " dallo stato '" + lista1 + "' allora stato '" + lista2 + "'";
+        mess = userLoggedIn + " ha spostato la card '" + cardName + "' dallo stato '" + lista1 + "' allo stato '" + lista2 + "'";
         return projectName + "\n" + sender + "\n" + mess;
 
     }
 
     private String messageForAddedCard(String projectName, String sender, String userLoggedIn, String cardName) {
         String mess;
-        mess = userLoggedIn + " ha aggiunto la card " + cardName + " a questo progetto";
+        mess = userLoggedIn + " ha aggiunto la card '" + cardName + "' a questo progetto";
         return projectName + "\n" + sender + "\n" + mess;
 
 

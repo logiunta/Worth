@@ -125,7 +125,7 @@ public class MulticastConnection implements Runnable {
             if(ip == null)
                 System.out.println("Non partecipi alla chat " + projectName);
             else{
-                String messTosend = projectName + "\n" + userLoggedIn + "\n" + message;
+                String messTosend = projectName + "\n" + userLoggedIn + "\n" + "' " + message + "'";
                 byte[] array = messTosend.getBytes(StandardCharsets.UTF_8);
                 DatagramPacket datagramPacket = new DatagramPacket(array,array.length,ip,multiPort);
                 try {

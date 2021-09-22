@@ -56,7 +56,7 @@ public class ClientMain {
 
             System.out.println("Benvenuto in WORTH");
             System.out.println("Prima di iniziare effettua il login se sei registrato, altrimenti registrati");
-            System.out.println("Digita help se hai bisogno di supporto!");
+            System.out.println("Digita help se hai bisogno di supporto!\n");
 
 
             while(!closeClient) {
@@ -179,8 +179,8 @@ public class ClientMain {
     private static void showHelpCommand(String[] myargs) {
         String res = checkArgs(myargs,"help");
         if(res.equals("ok")) {
-            System.out.println("------------------------Comandi disponibili in Worth------------------------");
-            System.out.println("Attenzione: la sintassi va rispettata e i comandi vanno scritti in minuscolo");
+            System.out.println("------------------------Comandi disponibili in Worth------------------------\n");
+            System.out.println("Attenzione: la sintassi va rispettata e i comandi vanno scritti in minuscolo\n");
             res = "Registrazione a Worth: register nickName password" + "\nAccedere a Worth: login nickName password" +
                     "\nLista degli utenti registrati a Worth: listUsers" +
                     "\nLista degli utenti online: listOnlineUsers" + "\nUscire da Worth: logout nickName" +
@@ -658,6 +658,7 @@ public class ClientMain {
                 res = "Nessun utente trovato nel Db locale";
 
             else {
+                System.out.println("Lista degli utenti iscritti a Worth:");
                 for (String user : list) {
                     System.out.println(user);
                 }
@@ -677,6 +678,7 @@ public class ClientMain {
             if (list.size() == 0)
                 res = "Tutti gli utenti sono offline";
             else {
+                System.out.println("Lista degli utenti al momento online:");
                 for (String user : list) {
                     System.out.println(user);
                 }

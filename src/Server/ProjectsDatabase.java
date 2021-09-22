@@ -81,9 +81,11 @@ public class ProjectsDatabase implements Serializable {
             Project project = projects.get(projectName);
             if (project == null) throw new ProjectNotFoundException();
             if (!project.getUsers().contains(userLogged)) throw new NotPermittedException();
-
-            if(!project.allCardsDone())
+            if(!project.allCardsDone()){
+                System.out.println("eccezione");
                 throw new NotAllDoneException();
+            }
+
 
             multiGenerator.addReusedIp(ip);
             projects.remove(projectName);
