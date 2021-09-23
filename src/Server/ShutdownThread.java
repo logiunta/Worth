@@ -27,7 +27,7 @@ public class ShutdownThread implements Runnable{
     public void run() {
         String command;
         Scanner scanner = new Scanner(System.in);
-        while(!(command = scanner.nextLine()).equals("exit"));
+        while(!(command = scanner.nextLine()).trim().equals("exit"));
 
         shutDown();
 
