@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.*;
 
 public class Storage {
+    private static final String firstMultiIp = "224.0.0.255";
     private static final File dataDir = new File("./data");
     private static final File usersDir = new File("./data/UsersDb");
     private static final File usersFile = new File("./data/UsersDb/WorthUsers.json");
@@ -82,7 +83,7 @@ public class Storage {
         if(!multiAddressFile.exists()){
             try {
                 multiAddressFile.createNewFile();
-                multiGenerator = new MultiGenerator("224.0.0.0",new ArrayList<>());
+                multiGenerator = new MultiGenerator(firstMultiIp,new ArrayList<>());
                 writeLastMultiAddress(multiGenerator);
 
             } catch (IOException e) {
@@ -90,7 +91,7 @@ public class Storage {
             }
         }
 
-        else multiGenerator = new MultiGenerator("224.0.0.0",new ArrayList<>());
+        else multiGenerator = new MultiGenerator(firstMultiIp,new ArrayList<>());
         fromJsonToMultiAddress();
 
         return multiGenerator;
