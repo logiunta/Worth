@@ -62,7 +62,7 @@ public class ClientMain {
             while(!closeClient) {
                 System.out.print("> ");
                 op_message = buffered_cmd.readLine();
-                my_args = op_message.split(" "); //splitta il messaggio dove ci sono gli spazi
+                my_args = op_message.trim().split(" "); //splitta il messaggio dove ci sono gli spazi
                 op = my_args[0];
                 inputStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 outputStream = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
