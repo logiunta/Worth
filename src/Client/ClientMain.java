@@ -254,18 +254,14 @@ public class ClientMain {
                 break;
 
             case "addCard":
-                if(myargs.length > 4)
-                    res = "Comando errato, troppi argomenti\nUso: " + op + " projectName cardName description";
-                else if(myargs.length < 4)
+                if(myargs.length < 4)
                     res = "Comando errato, argomenti mancanti\nUso: " + op + " projectName cardName description\n" +
-                            "Ricorda: la descrizione deve essere breve e priva di spazi";
+                            "Ricorda: la descrizione deve essere breve ";
                 break;
 
             case "sendChatMsg":
                 if(myargs.length < 3)
                     res = "Comando errato, argomenti mancanti\nUso: " + op + " projectName message";
-                else if(myargs.length > 3)
-                    res = "Comando errato, troppi argomenti\nUso: " + op + " projectName message";
                 break;
 
             case "showCard":
@@ -342,22 +338,14 @@ public class ClientMain {
     }
 
     private static void sendChatMsg(String[] my_args) throws IOException {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 2; i < my_args.length; i++) {
-            builder.append(my_args[i] + " ");
-        }
-        String message = builder.toString();
-        String[] args = new String[3];
-        args[0] = my_args[0]; //command
-        args[1] = my_args[1]; //nome progetto
-        args[2] = message;
-
-        String res = checkArgs(args, "sendChatMsg");
+        String res = checkArgs(my_args, "sendChatMsg");
         if (res.equals("ok")) {
             if (!isLoggedIn)
                 res = "Errore: login non effettuato";
 
             else {
+                String[] args = parseInputMessage(my_args);
+                String message = args[2];
                 outputStream.write(op_message + "\r\n");
                 outputStream.flush();
                 res = inputStream.readLine();
@@ -484,8 +472,29 @@ public class ClientMain {
 
     }
 
+
+    private static String[] parseInputMessage(String[] my_args) {
+        StringBuilder builder = new StringBuilder();
+        int i;
+        String description;
+        String message;
+        String[] args;
+
+        for (i = 2; i < my_args.length; i++)
+            builder.append(my_args[i] + " ");
+
+        message = builder.toString();
+        args = new String[3];
+        args[0] = my_args[0]; //command
+        args[1] = my_args[1]; //nome progetto
+        args[2] = message;
+
+
+        return args;
+    }
+
     private static void addCard(String[] my_args) throws IOException {
-        String res = checkArgs(my_args, "addCard");
+        String res = checkArgs(my_args,"addCard");
         if (res.equals("ok")) {
             if (!isLoggedIn)
                 res = "Errore: login non effettuato";

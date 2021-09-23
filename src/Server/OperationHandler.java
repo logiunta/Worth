@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class OperationHandler implements Runnable {
     private final int multiPort = 63000;
-    private final int udpPort = 64500;
+    private final int udpPort = 54150;
     private final UsersDatabase usersDb; //importante usare final quando dovrò gestire la concorrenza su questo oggetto
     private final ProjectsDatabase projectsDb;
     private final Socket socket;
@@ -94,7 +94,7 @@ public class OperationHandler implements Runnable {
                         break;
 
                     case "addCard":
-                        res = addCardHandler(myArgs[1], myArgs[2], myArgs[3]);
+                        res = addCardHandler(myArgs);
                         outputStream.write(res + "\r\n");
                         outputStream.flush();
                         break;
@@ -386,13 +386,32 @@ public class OperationHandler implements Runnable {
                 e.printStackTrace();
             }
 
-
         }
         return res;
     }
 
-    private String addCardHandler(String projectName, String cardName, String description) {
+    private String[] parseCardDescription(String[] my_args){
+        StringBuilder builder = new StringBuilder();
+        for (int i = 3; i < my_args.length; i++) {
+            builder.append(my_args[i] + " ");
+        }
+        String description = builder.toString();
+        String[] args = new String[4];
+        args[0] = my_args[0]; //command
+        args[1] = my_args[1]; //nome progetto
+        args[2] = my_args[2]; //nome card
+        args[3] = description;
+
+        return args;
+    }
+
+    private String addCardHandler(String[] my_args) {
         String res = "Card aggiunta correttamente";
+        String[] args = parseCardDescription(my_args);
+        String projectName = args[1];
+        String cardName = args[2];
+        String description = args[3];
+
         if (!loggedIn)
             res = "Errore: login non effettuato";
         else {
