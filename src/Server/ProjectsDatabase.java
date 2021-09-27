@@ -45,7 +45,7 @@ public class ProjectsDatabase implements Serializable {
 
             Card card = new Card(cardName,description);
             if(project.addCard(card)) {
-                Storage.writeCardToJson(card, projectName);
+                Storage.writeCardToJson(card, project);
             }
 
             else
@@ -68,7 +68,7 @@ public class ProjectsDatabase implements Serializable {
                 throw new IllegalArgumentException();
 
             Card card = project.moveCard(cardName,listaPartenza,listaDestinazione);
-            Storage.writeCardToJson(card,projectName);
+            Storage.writeCardToJson(card,project);
 
 
         }
@@ -105,7 +105,7 @@ public class ProjectsDatabase implements Serializable {
             if (project == null) throw new ProjectNotFoundException();
             if (!project.getUsers().contains(userLogged)) throw new NotPermittedException();
 
-            list = project.getCardsList();
+            list = project.CardsName();
             if (list.isEmpty()) throw new NoCardsExceptions();
         }
             return list;

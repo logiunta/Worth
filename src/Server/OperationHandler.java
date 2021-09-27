@@ -247,7 +247,7 @@ public class OperationHandler implements Runnable {
             } catch (NotPermittedException e) {
                 res = "Errore: non hai i permessi per fare questa operazione";
             } catch (IllegalArgumentException e) {
-                res = "Errore: le liste non sono corrette. Liste disponibili (todo - inprogress - toberevise - done)";
+                res = "Errore: le liste non sono corrette. Liste disponibili (todo - inprogress - toberevised - done)";
             } catch (ListMisMatchException e) {
                 res = "Errore: la transizione " + listaPartenza + " -> " + listaDestinazione + " non è permessa";
             } catch (CardNotFoundException e) {

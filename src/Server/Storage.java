@@ -3,6 +3,7 @@ package Server;
 import Common.Card;
 import Common.Project;
 import Common.User;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -181,9 +182,9 @@ public class Storage {
         }
     }
 
-    public static void writeCardToJson(Card card, String projectName){
-        File cardsDir = new File(projectsDir + "/" + projectName + "/Cards");
-        File jsonFile = new File(projectsDir + "/" + projectName + "/Cards" + "/" + card.getName() +".json");
+    public static void writeCardToJson(Card card, Project project){
+        File cardsDir = new File(projectsDir + "/" + project.getProjectName() + "/Cards");
+        File jsonFile = new File(projectsDir + "/" + project.getProjectName() + "/Cards" + "/" + card.getName() +".json");
 
         if(!cardsDir.exists()){
             cardsDir.mkdir();
@@ -199,6 +200,8 @@ public class Storage {
         try{
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(jsonFile,card);
 
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -207,9 +210,9 @@ public class Storage {
     private static Project getProjectInfo(File dir) {
         String name = dir.getName();
         Project project = null;
-        ArrayList<File> list = new ArrayList<>(Arrays.asList(dir.listFiles()));
         File file = new File("./data/Projects/" + name + "/" + name + "Info.json");
         ObjectMapper objectMapper = new ObjectMapper();
+
         try {
             project = objectMapper.readValue(file,Project.class);
 

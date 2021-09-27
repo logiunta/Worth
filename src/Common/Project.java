@@ -4,30 +4,31 @@ import Exceptions.CardAlreadyExistException;
 import Exceptions.CardNotFoundException;
 import Exceptions.ListMisMatchException;
 import Exceptions.ProjectAlreadyAddedException;
+import Server.Storage;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
-import javax.smartcardio.CardNotPresentException;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
+import java.util.Arrays;
+
 
 public class Project implements Serializable {
     public static final String TodoState = "todo";
     public static final String InProgressState = "inprogress";
     public static final String ToBeRevisedState = "toberevised";
     private static final String DoneState = "done";
-    private final String projectName;
+    private String projectName;
     private final ArrayList<String> users;
-    private final ArrayList<Card> cardsList;
-    private final ArrayList<String> todoList;
-    private final ArrayList<String> inProgessList;
-    private final ArrayList<String> toBeRevisedList;
-    private final ArrayList<String> doneList;
+    private ArrayList<Card> cardsList;
+    private ArrayList<String> todoList;
+    private ArrayList<String> inProgressList;
+    private ArrayList<String> toBeRevisedList;
+    private ArrayList<String> doneList;
     private final String multiAddress;
     private File dir;
     private File fileInfo;
@@ -36,7 +37,8 @@ public class Project implements Serializable {
 
     @JsonCreator
     public Project(@JsonProperty("projectName") String projectName,
-                   @JsonProperty("creatorUser") String user,@JsonProperty("ip") String multiAddress){
+                   @JsonProperty("user") String user, @JsonProperty("multiAddress") String multiAddress){
+
         this.projectName = projectName;
         this.multiAddress = multiAddress;
         users = new ArrayList<>();
@@ -44,8 +46,9 @@ public class Project implements Serializable {
         todoList = new ArrayList<>();
         toBeRevisedList = new ArrayList<>();
         doneList = new ArrayList<>();
-        inProgessList = new ArrayList<>();
+        inProgressList = new ArrayList<>();
         cardsList = new ArrayList<>();
+
         dir = new File("./data/Projects/" + projectName);
         fileInfo = new File("./data/Projects/" + projectName + "/" + projectName + "Info.json");
         cardsDir = new File("./data/Projects/" + projectName + "/" + "Cards");
@@ -92,7 +95,7 @@ public class Project implements Serializable {
                 toBeRevisedList.add(card.getName());
                 break;
             case InProgressState:
-                inProgessList.add(card.getName());
+                inProgressList.add(card.getName());
                 break;
             case DoneState:
                 doneList.add(card.getName());
@@ -121,8 +124,9 @@ public class Project implements Serializable {
         switch (state){
             case TodoState:
                 if(listaDestinazione.equals(InProgressState)) {
+                    System.out.println(todoList);
                     card.updateLastStatus(listaDestinazione);
-                    inProgessList.add(cardName);
+                    inProgressList.add(cardName);
                     todoList.remove(cardName);
                     switchRes = true;
                 }
@@ -132,13 +136,13 @@ public class Project implements Serializable {
                 if(listaDestinazione.equals(ToBeRevisedState)) {
                     card.updateLastStatus(listaDestinazione);
                     toBeRevisedList.add(cardName);
-                    inProgessList.remove(cardName);
+                    inProgressList.remove(cardName);
                     switchRes = true;
                 }
                 else if(listaDestinazione.equals(DoneState)){
                     card.updateLastStatus(listaDestinazione);
                     doneList.add(cardName);
-                    inProgessList.remove(cardName);
+                    inProgressList.remove(cardName);
                     switchRes = true;
 
                 }
@@ -153,7 +157,7 @@ public class Project implements Serializable {
                 }
                 else if (listaDestinazione.equals(InProgressState)){
                     card.updateLastStatus(listaDestinazione);
-                    inProgessList.add(cardName);
+                    inProgressList.add(cardName);
                     toBeRevisedList.remove(cardName);
                     switchRes = true;
                 }
@@ -164,7 +168,6 @@ public class Project implements Serializable {
 
             }
             if(!switchRes) throw new ListMisMatchException();
-
 
             return card;
     }
@@ -183,9 +186,10 @@ public class Project implements Serializable {
         return users;
     }
 
+
     public boolean allCardsDone(){
 
-        return (todoList.size() == 0 && inProgessList.size() == 0 && toBeRevisedList.size() == 0);
+        return (todoList.size() == 0 && inProgressList.size() == 0 && toBeRevisedList.size() == 0);
 
     }
 
@@ -193,18 +197,14 @@ public class Project implements Serializable {
         return lista.equals(ToBeRevisedState) || lista.equals(TodoState) || lista.equals(InProgressState) || lista.equals(DoneState);
     }
 
-    public ArrayList<String> getCardsList(){
+
+    public ArrayList<String> CardsName(){
         ArrayList<String> list = new ArrayList<>();
         for(Card c : cardsList){
             list.add(c.getName());
         }
         return list;
     }
-
-
-
-
-
 
 }
 
