@@ -19,17 +19,17 @@ public class Project implements Serializable {
     public static final String InProgressState = "inprogress";
     public static final String ToBeRevisedState = "toberevised";
     private static final String DoneState = "done";
-    private String projectName;
+    private final String projectName;
     private final ArrayList<String> users;
-    private ArrayList<Card> cardsList;
-    private ArrayList<String> todoList;
-    private ArrayList<String> inProgressList;
-    private ArrayList<String> toBeRevisedList;
-    private ArrayList<String> doneList;
+    private final ArrayList<Card> cardsList;
+    private final ArrayList<String> todoList;
+    private final ArrayList<String> inProgressList;
+    private final ArrayList<String> toBeRevisedList;
+    private final ArrayList<String> doneList;
     private final String multiAddress;
-    private File dir;
-    private File fileInfo;
-    private File cardsDir;
+    private final File dir;
+    private final File fileInfo;
+    private final File cardsDir;
 
 
     @JsonCreator
