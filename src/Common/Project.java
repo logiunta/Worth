@@ -1,20 +1,17 @@
 package Common;
 
-import Exceptions.CardAlreadyExistException;
 import Exceptions.CardNotFoundException;
 import Exceptions.ListMisMatchException;
-import Exceptions.ProjectAlreadyAddedException;
-import Server.Storage;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
+
 
 
 public class Project implements Serializable {
@@ -124,7 +121,6 @@ public class Project implements Serializable {
         switch (state){
             case TodoState:
                 if(listaDestinazione.equals(InProgressState)) {
-                    System.out.println(todoList);
                     card.updateLastStatus(listaDestinazione);
                     inProgressList.add(cardName);
                     todoList.remove(cardName);

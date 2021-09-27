@@ -274,8 +274,8 @@ public class ClientMain {
 
 
             case "error":
-                res = "Comando non trovato: prova ad usare lettere minuscole e '_' al posto degli spazi o digita help " +
-                        "per conoscere quali comandi sono disponibili";
+                res = "Comando non trovato: prova ad usare lettere minuscole o digita help " +
+                        "per conoscere quali comandi sono disponibili in Worth";
                 break;
 
         }

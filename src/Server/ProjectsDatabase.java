@@ -82,7 +82,6 @@ public class ProjectsDatabase implements Serializable {
             if (project == null) throw new ProjectNotFoundException();
             if (!project.getUsers().contains(userLogged)) throw new NotPermittedException();
             if(!project.allCardsDone()){
-                System.out.println("eccezione");
                 throw new NotAllDoneException();
             }
 
