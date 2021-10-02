@@ -70,7 +70,7 @@ public class RmiClientNotifyImpl extends RemoteObject implements RmiClientNotify
     public void notifyProjectRemoved(String projectName,String userLoggedIn) throws RemoteException {
         myChats.leaveChat(projectName);
         if(!userLoggedIn.equals(idClient)) //non lo notifico all'utente che ha cancellato il progetto
-            System.out.print("\n< Notifica dal sistema: il progetto " + projectName + " è stato elixminato da un membro del gruppo\n>");
+            System.out.print("\n< Notifica dal sistema: il progetto " + projectName + " è stato eliminato da un membro del gruppo\n>");
 
     }
 
