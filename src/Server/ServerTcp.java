@@ -2,8 +2,6 @@ package Server;
 
 import java.io.*;
 import java.net.*;
-import java.sql.Time;
-import java.util.Scanner;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -44,7 +42,7 @@ public class ServerTcp {
                 Socket client = serverSocket.accept();
                 shutdownThread.addSocket(client);
                 System.out.println("Nuovo client connesso al sistema");
-                OperationHandler handler = new OperationHandler(userDb, client, notify, multiGenerator, projectsDb);
+                TcpHandler handler = new TcpHandler(userDb, client, notify, multiGenerator, projectsDb);
                 threadPool.execute(handler);
             }
         } catch (IOException e) {
