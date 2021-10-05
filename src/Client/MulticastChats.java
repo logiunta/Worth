@@ -1,5 +1,6 @@
-package Common;
+package Client;
 
+import Common.Message;
 import Exceptions.ProjectAlreadyAddedException;
 
 

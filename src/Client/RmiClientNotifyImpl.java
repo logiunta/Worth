@@ -1,6 +1,5 @@
 package Client;
 
-import Common.MulticastChats;
 import Common.Project;
 import Common.RmiClientNotifyInterface;
 import Common.UserStatus;
