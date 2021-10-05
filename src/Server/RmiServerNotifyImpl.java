@@ -97,11 +97,9 @@ public class RmiServerNotifyImpl extends RemoteObject implements RmiServerNotify
         System.out.println("Aggiornamento inviato");
     }
 
-
     public synchronized List<RmiClientNotifyInterface> getClients() {
         return new ArrayList<>(clients.values());
     }
-
 
     //nel caso in cui il client crashi, non avrà fatto signOutFromCallBack, deve farlo il server
     private synchronized void doCallBackInterrupt(ArrayList<UserStatus> clientsDb, String idClient) throws RemoteException {

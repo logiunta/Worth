@@ -12,7 +12,6 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 
 public class ClientMain {
@@ -28,13 +27,13 @@ public class ClientMain {
     public static BufferedWriter outputStream;
     private static String op_message;
     private static boolean isLoggedIn; // true, se si è loggati tramite questo client
-    private static MulticastConnection myChats;
+    private static MulticastChats myChats;
     private static String userLoggedIn;
 
     public static void main(String[] args) {
         localUsersDb = new LocalDb();
         isLoggedIn = false;
-        myChats = new MulticastConnection();
+        myChats = new MulticastChats();
         userLoggedIn = null;
         String op;
         String[] my_args;

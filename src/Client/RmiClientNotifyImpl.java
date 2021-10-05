@@ -1,12 +1,10 @@
 package Client;
 
-import Common.MulticastConnection;
+import Common.MulticastChats;
 import Common.Project;
 import Common.RmiClientNotifyInterface;
 import Common.UserStatus;
 
-import java.io.IOException;
-import java.net.MulticastSocket;
 import java.rmi.RemoteException;
 import java.rmi.server.RemoteObject;
 import java.util.ArrayList;
@@ -14,9 +12,9 @@ import java.util.ArrayList;
 public class RmiClientNotifyImpl extends RemoteObject implements RmiClientNotifyInterface {
     private String idClient;
     private LocalDb clientUsersDb;
-    private MulticastConnection myChats;
+    private MulticastChats myChats;
 
-    public RmiClientNotifyImpl(LocalDb clientUsersDb,MulticastConnection myChats) {
+    public RmiClientNotifyImpl(LocalDb clientUsersDb, MulticastChats myChats) {
         super();
         this.clientUsersDb = clientUsersDb;
         this.idClient = null;
