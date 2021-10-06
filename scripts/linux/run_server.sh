@@ -1,2 +1,2 @@
 #!/bin/bash
-java -cp "lib/*;bin/Worth/Server" Server/ServerMain
+java -cp "lib/*:./bin/Worth" Server.ServerMain

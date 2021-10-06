@@ -1,3 +1,2 @@
 #!/bin/bash
-
-java -cp "lib/*;bin/Worth/Client" Client/ClientMain
+java -cp "lib/*:./bin/Worth" Client.ClientMain

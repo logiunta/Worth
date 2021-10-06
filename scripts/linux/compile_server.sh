@@ -1,4 +1,5 @@
 #!/bin/bash
-echo Compilazione del server in corso. Attendere...
+mkdir ./bin
+mkdir ./bin/Worth
 
-javac -d ./bin/Worth/Server -cp "lib/*" src/Server/*.java src/Common/*.java src/Exceptions/*.java
+javac -d ./bin/Worth -cp "lib/*" src/Server/*.java src/Common/*.java src/Exceptions/*.java
