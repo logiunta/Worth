@@ -18,9 +18,10 @@ public class ProjectsDatabase implements Serializable {
 
     public String addProject(String projectName, String user,MultiGenerator multiGenerator) throws NullPointerException, ProjectAlreadyAddedException {
         if (projectName == null || user == null || multiGenerator == null) throw new NullPointerException();
-        String multiIp = multiGenerator.generateIp();
-        Project project = new Project(projectName,user,multiIp);
+
         synchronized (projects) {
+            String multiIp = multiGenerator.generateIp();
+            Project project = new Project(projectName,user,multiIp);
             if(projects.putIfAbsent(projectName,project) != null) {
                 multiGenerator.addReusedIp(multiIp); //il progetto esiste già, l'indirizzo appena generato posso riusarlo
                 throw new ProjectAlreadyAddedException();
@@ -29,9 +30,8 @@ public class ProjectsDatabase implements Serializable {
                 Storage.writeProjectInfo(project);
                 Storage.writeLastMultiAddress(multiGenerator); //salvo l'ultimo indirizzo ip dal quale ripartire una volta spento il server
             }
+            return multiIp;
         }
-        return multiIp;
-
     }
 
     public void addCard(String projectName, String cardName, String description, String user) throws CardAlreadyExistException, ProjectNotFoundException, NotPermittedException {
@@ -84,7 +84,6 @@ public class ProjectsDatabase implements Serializable {
             if(!project.allCardsDone()){
                 throw new NotAllDoneException();
             }
-
 
             multiGenerator.addReusedIp(ip);
             projects.remove(projectName);
@@ -201,19 +200,20 @@ public class ProjectsDatabase implements Serializable {
 
     public ArrayList<String> getListOfProjects(String user) throws NullPointerException, NoProjectsException{
         if(user == null) throw new NullPointerException();
-        ArrayList<Project> list = new ArrayList<>(projects.values());
-        ArrayList<String> userProjects = new ArrayList<>();
-        for(Project project : list){
-            if(project.getUsers().contains(user)){
-                userProjects.add(project.getProjectName());
+        synchronized (projects) {
+            ArrayList<Project> list = new ArrayList<>(projects.values());
+            ArrayList<String> userProjects = new ArrayList<>();
+            for (Project project : list) {
+                if (project.getUsers().contains(user)) {
+                    String copy = new String(project.getProjectName());
+                    userProjects.add(copy);
+                }
             }
 
+            if (userProjects.isEmpty())
+                throw new NoProjectsException();
+            return userProjects;
         }
-
-        if(userProjects.isEmpty())
-            throw new NoProjectsException();
-
-        return userProjects;
     }
 
     public Project addMember(String projectName, String nickName,String userLoggedIn) throws NullPointerException,ProjectNotFoundException,UserAlreadyAddedException,NotPermittedException{

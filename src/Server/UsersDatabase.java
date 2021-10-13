@@ -29,22 +29,12 @@ public class UsersDatabase implements Serializable{
                 }
                 ArrayList<User> listOfUsers = new ArrayList<>(users.values());
                 Storage.writeUsersToJson(listOfUsers);
+
+                return getDbForClients();
             }
         }
-        return getDbForClients();
-
     }
 
-        private void setUserStatus(String nickname) {
-            synchronized (users) {
-                users.get(nickname).setStatus("online");
-                ArrayList<User> listOfUsers = new ArrayList<>(users.values());
-                Storage.writeUsersToJson(listOfUsers);
-
-
-            }
-
-        }
 
     public ArrayList<UserStatus> loginDb(String nickName, String passw) throws NullPointerException, UserNotFoundException, PasswException, UserAlreadyConnectedException {
         if(nickName == null || passw == null)
@@ -56,13 +46,13 @@ public class UsersDatabase implements Serializable{
             if (!(u.getPassw().equals(passw)))
                 throw new PasswException();
 
-            if(u.getStatus().equals("online"))
+            if (u.getStatus().equals("online"))
                 throw new UserAlreadyConnectedException();
 
             setUserStatus(nickName);
-        }
 
-        return getDbForClients(); //ritorno la struttura dati aggiornata da passare ai client
+            return getDbForClients(); //ritorno la struttura dati aggiornata da passare ai client
+        }
 
     }
 
@@ -75,17 +65,21 @@ public class UsersDatabase implements Serializable{
             if (u == null)
                 throw new UserNotFoundException();
 
-            if(!nickName.equals(userLoggedIn)) //se chi richiede il logout è diverso dall'utente da disconnettere
+            if (!nickName.equals(userLoggedIn)) //se chi richiede il logout è diverso dall'utente da disconnettere
                 throw new NotPermittedException();
 
             resetUserStatus(nickName);
 
-
+            return getDbForClients();
         }
-
-        return getDbForClients();
     }
 
+    private void setUserStatus(String nickname) {
+        users.get(nickname).setStatus("online");
+        ArrayList<User> listOfUsers = new ArrayList<>(users.values());
+        Storage.writeUsersToJson(listOfUsers);
+
+    }
 
     private void resetUserStatus(String nickname) {
         users.get(nickname).setStatus("offline");
@@ -100,7 +94,6 @@ public class UsersDatabase implements Serializable{
         synchronized (users){
             if(!users.containsKey(nickName))
                 throw new UserNotFoundException();
-
         }
         return true;
 

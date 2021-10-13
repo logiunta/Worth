@@ -61,8 +61,10 @@ public class MulticastChats implements Runnable {
                 }
             }
             infoProjects.clear();
-            messaggesQueue.clear();
 
+        }
+        synchronized (messaggesQueue) {
+            messaggesQueue.clear();
         }
 
 
